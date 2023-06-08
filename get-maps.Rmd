@@ -14,7 +14,7 @@ library(pbapply)
 library(stringi)
 library(rvest)
 ```
-
+Map key (interactive): https://a100.gov.bc.ca/ext/mtec/public/products/mapsheet 
 
 ```{r download map files}
 options(timeout=1000)
