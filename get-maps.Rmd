@@ -1,0 +1,39 @@
+---
+title: "Download BC topo maps"
+author: "Luke Warkentin"
+date: "2023-06-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(RCurl)
+library(httr)
+library(pbapply)
+library(stringi)
+library(rvest)
+```
+
+
+```{r download map files}
+options(timeout=1000)
+
+
+
+URL <- "https://pub.data.gov.bc.ca/datasets/177864/pdf/103i/"
+
+pg <- read_html(URL)
+pdfs <- grep("pdf$", html_attr(html_nodes(pg, "a[href^='103I']"), "href"), value=TRUE)
+downloaded <- list.files(here('maps/'))
+to_download <- setdiff(pdfs, downloaded)
+
+
+sapply(to_download, function(x) {
+  download.file(paste0(URL, x), 
+                destfile=here(paste0('maps/', x)), mode="wb")
+  
+}
+)
+
+```
